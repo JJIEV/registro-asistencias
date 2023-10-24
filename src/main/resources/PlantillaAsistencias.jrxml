@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Asistencias" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="2510eda8-7898-411a-91dd-e48afe63015c">
+    <field name="fecha" class="java.util.Date"/>
+    <field name="aulaMateria.aula.descripcion" class="java.lang.String"/>
+    <field name="aulaMateria.aula.especialidad.descripcion" class="java.lang.String"/>
+    <field name="alumno.nombre" class="java.lang.String"/>
+    <field name="alumno.apellido" class="java.lang.String"/>
+    <field name="asistencia" class="java.lang.String"/>
+    <title>
+        <band height="73">
+            <line>
+                <reportElement x="-11" y="61" width="579" height="1" uuid="296d20eb-b856-4f22-84b2-1e4f10cbf936"/>
+            </line>
+            <rectangle>
+                <reportElement x="-11" y="0" width="579" height="61" uuid="60a18aa0-4219-45c8-87d8-9d2fa1d8ea00"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="0" y="20" width="100" height="30" uuid="3abf9402-8b07-457f-8221-6896141ece01">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                </reportElement>
+                <text><![CDATA[Fecha]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="110" y="20" width="100" height="30" uuid="ea418ca4-c99d-4324-ae09-8a6acba99c30">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                </reportElement>
+                <text><![CDATA[Curso]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="270" y="20" width="100" height="30" uuid="2d38d1c5-f7a2-4883-8756-228c4b15d4c5">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                </reportElement>
+                <text><![CDATA[Alumno]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="480" y="20" width="100" height="30" uuid="562c8ec7-c76f-44a8-9f8f-6d0fe44b35d7">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                </reportElement>
+                <text><![CDATA[Asistencia]]></text>
+            </staticText>
+        </band>
+    </title>
+    <detail>
+        <band height="39" splitType="Stretch">
+            <rectangle>
+                <reportElement x="-20" y="-12" width="595" height="51" uuid="94362aa4-6e02-4a53-a4f9-0a59e6b9e6fc"/>
+            </rectangle>
+            <textField>
+                <reportElement x="5" y="5" width="100" height="25" uuid="a6f5a68f-9908-4cba-9d1f-a1c44d305391"/>
+                <textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="115" y="5" width="150" height="25" uuid="63e7cbcd-7b86-4ce8-9b08-0697bd16e988"/>
+                <textFieldExpression><![CDATA[$F{aulaMateria.aula.descripcion} + " " + $F{aulaMateria.aula.especialidad.descripcion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="275" y="5" width="200" height="25" uuid="5e66066a-227f-47d3-ba34-ccb01258c48f"/>
+                <textFieldExpression><![CDATA[$F{alumno.nombre} + " " + $F{alumno.apellido}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="485" y="5" width="100" height="25" uuid="b2e023ae-9aa9-4041-8e1e-6046c8aeca03"/>
+                <textFieldExpression><![CDATA[$F{asistencia}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
