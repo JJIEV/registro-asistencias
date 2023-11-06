@@ -7,6 +7,7 @@ import com.mifacturaportal.domain.registro.*;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,9 @@ public class AppController {
     @Autowired
     private AsistenciaRepository asistenciaRepository;
 
+    @Autowired
+    private MateriaRepository materiaRepository;
+
     @GetMapping("/aula-materia")
     public List<AulaMateria> getAulaMateriaAll(){
         return aulaMateriaRepository.findAll();
@@ -70,12 +74,26 @@ public class AppController {
 
     }
 
+    @GetMapping("/traer-alumnos-por-aula")
+    public List<Alumno> getAlumnosPorAluma(@RequestParam(required = false) Integer aulaId){
+        List<Alumno> alumnos = new ArrayList<>();
+        if (aulaId != null){
+            alumnos = alumnoRepository.findAlumnosByAulaId(aulaId);
+        }
+
+        if (alumnos != null && aulaId != null){
+            return alumnos;
+        }else {
+            return alumnoRepository.findAll();
+        }
+    }
+
     @PostMapping("/agregar-registro-asistencia")
     public void agregarRegistroAsistencia(@RequestBody AsistenciaDTO asistenciaDTO, @RequestParam Boolean presenteTodos){
 
         Asistencia asistenciaRegistro = new Asistencia();
 
-        List<Alumno> alumnos = alumnoRepository.findAlumnosByAulaId(asistenciaDTO.getAulaMateria().getAula().getId());
+        List<Alumno> alumnos = alumnoRepository.findAlumnosByAulaId(asistenciaDTO.getAula().getId());
 
 //        AulaMateria aulaMateria = aulaMateriaRepository.findAulaMateriaByAulaIdAndDocenteId(asistenciaDTO.getAulaMateria().getAula().getId(), asistenciaDTO.getAulaMateria().getDocente().getId());
 
@@ -204,6 +222,9 @@ public class AppController {
 
     @GetMapping("/especialidades")
     public List<Especialidad> getEspecialidadesList(){return especialidadRepository.findAll();}
+
+    @GetMapping("/traer-materias")
+    public List<Materia> getMaterias(){return materiaRepository.findAll();}
 
 
 

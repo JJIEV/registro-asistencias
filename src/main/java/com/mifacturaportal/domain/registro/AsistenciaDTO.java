@@ -4,6 +4,9 @@ import java.util.Date;
 
 public class AsistenciaDTO {
     private AulaMateria aulaMateria;
+
+    private Aula aula;
+
     private Alumno alumno;
     private Date fecha;
     private String asistencia;
@@ -38,6 +41,14 @@ public class AsistenciaDTO {
 
     public void setAsistencia(String asistencia) {
         this.asistencia = asistencia;
+    }
+
+    public Aula getAula() {
+        return aula;
+    }
+
+    public void setAula(Aula aula) {
+        this.aula = aula;
     }
 }
 

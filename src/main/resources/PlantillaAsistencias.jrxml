@@ -2,8 +2,8 @@
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Asistencias" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="2510eda8-7898-411a-91dd-e48afe63015c">
     <field name="fecha" class="java.util.Date"/>
-    <field name="aulaMateria.aula.descripcion" class="java.lang.String"/>
-    <field name="aulaMateria.aula.especialidad.descripcion" class="java.lang.String"/>
+    <field name="alumno.aula.descripcion" class="java.lang.String"/>
+    <field name="alumno.aula.especialidad.descripcion" class="java.lang.String"/>
     <field name="alumno.nombre" class="java.lang.String"/>
     <field name="alumno.apellido" class="java.lang.String"/>
     <field name="asistencia" class="java.lang.String"/>
@@ -52,11 +52,13 @@
             </rectangle>
             <textField>
                 <reportElement x="5" y="5" width="100" height="25" uuid="a6f5a68f-9908-4cba-9d1f-a1c44d305391"/>
-                <textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy", new java.util.Locale("es", "PY")).format($F{fecha})
+]]></textFieldExpression>
+
             </textField>
             <textField>
                 <reportElement x="115" y="5" width="150" height="25" uuid="63e7cbcd-7b86-4ce8-9b08-0697bd16e988"/>
-                <textFieldExpression><![CDATA[$F{aulaMateria.aula.descripcion} + " " + $F{aulaMateria.aula.especialidad.descripcion}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{alumno.aula.descripcion} + " " + $F{alumno.aula.especialidad.descripcion}]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="275" y="5" width="200" height="25" uuid="5e66066a-227f-47d3-ba34-ccb01258c48f"/>

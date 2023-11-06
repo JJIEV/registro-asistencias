@@ -380,6 +380,7 @@ export const AsistenciaPrimeroBTI = () => {
                   <tr>
                     <th scope="col">Fecha</th>
                     <th scope="col">Curso</th>
+                    <th scope="col">Materia</th>
                     <th scope="col">Alumno</th>
                     <th scope="col">Asistencia</th>
                     <th scope="col">Justificacion</th>
@@ -392,9 +393,12 @@ export const AsistenciaPrimeroBTI = () => {
                         <tr key={item.id}>
                           <td>{moment(item.fecha).format("YYYY-MM-DD")}</td>
                           <td>
-                            {item.aulaMateria.aula?.descripcion +
+                            {item.alumno.aula?.descripcion +
                               " " +
-                              item.aulaMateria?.aula.especialidad?.descripcion}
+                              item.alumno?.aula.especialidad?.descripcion}
+                          </td>
+                          <td>
+                            {item.aulaMateria?.materia.descripcion}
                           </td>
                           <td>
                             {item.alumno.nombre + " " + item.alumno.apellido}

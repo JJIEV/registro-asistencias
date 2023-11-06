@@ -13,9 +13,9 @@ public class AulaMateria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_aula")
-    private Aula aula;
+//    @ManyToOne
+//    @JoinColumn(name = "id_aula")
+//    private Aula aula;
 
     @ManyToOne
     @JoinColumn(name = "id_materia")
@@ -37,13 +37,13 @@ public class AulaMateria implements Serializable {
         this.id = id;
     }
 
-    public Aula getAula() {
-        return aula;
-    }
-
-    public void setAula(Aula aula) {
-        this.aula = aula;
-    }
+//    public Aula getAula() {
+//        return aula;
+//    }
+//
+//    public void setAula(Aula aula) {
+//        this.aula = aula;
+//    }
 
     public Materia getMateria() {
         return materia;

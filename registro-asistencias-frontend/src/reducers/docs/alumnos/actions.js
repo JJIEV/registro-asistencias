@@ -44,6 +44,50 @@ export const cargarAlumnos = (filtro) => async (dispatch) => {
         }
       }
     };
+
+    export const cargarAlumnosPorAula = (aulaId) => async (dispatch) => {
+      if (cookies.get("token")) {
+        //si tiene valor el token y el header, osea que si no expiró
+  
+        let token = cookies.get("token");
+        let urlGetDocuments = "";
+        urlGetDocuments = ApiUrl + `/traer-alumnos-por-aula`;
+
+        if (aulaId !== null && aulaId !== undefined && aulaId !== '') {
+          urlGetDocuments = `${urlGetDocuments}?aulaId=${aulaId}`;
+        }
+        
+       
+  
+        try {
+          // dispatch(isLoading(true))
+          const response = await axios.get(urlGetDocuments, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          // dispatch(setIsLoading(false))
+          const { status } = response;
+  
+          if (status === 200 && response.data) {
+
+            dispatch(setAlumnos(response.data));
+          }
+        } catch (error) {
+          console.log(error);
+          // dispatch(setError(error.message))
+        }
+      } else {
+        if (cookies.get("refreshToken")) {
+  
+          await generarTokenConRefreshToken(cookies.get("refreshToken"));
+  
+          dispatch(cargarAlumnosPorAula(aulaId));
+        } else {
+          dispatch(onLogout());
+          window.location.href = redirectLoginUrl;
+          //no hace falta remover los tokens de la cookie, con expires ya elimina pasado el tiempo
+        }
+      }
+    };
     export const cargarPaginaFiltradaListaAlumnos =
   (filtro) => async (dispatch) => {
     if (cookies.get("token")) {
@@ -112,12 +156,13 @@ export const agregarAlumno = (filtro) => async (dispatch) => {
   if (cookies.get("token")) {
     //si tiene valor el token y el header, osea que si no expiró
 
-    const { nombre, apellido, tipo_documento, documento } = filtro;
+    const { nombre, apellido, tipo_documento, documento, aula } = filtro;
       const alumno = {
         nombre,
         apellido,
         tipo_documento,
-        documento
+        documento,
+        aula
       };
 
     let token = cookies.get("token");

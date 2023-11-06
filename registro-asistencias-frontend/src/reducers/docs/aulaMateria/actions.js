@@ -48,9 +48,9 @@ export const cargarAulaMateriaList = (filtro) => async (dispatch) => {
       if (cookies.get("token")) {
         //si tiene valor el token y el header, osea que si no expiró
     
-        const { aulaMateria, alumno, fecha, asistencia, presenteTodos} = filtro;
+        const { aulaMateria, aula, alumno, fecha, asistencia, presenteTodos} = filtro;
 
-        const objetoConjunto = { aulaMateria, alumno, fecha, asistencia };
+        const objetoConjunto = { aulaMateria, aula, alumno, fecha, asistencia };
     
         let token = cookies.get("token");
         let urlGetDocuments = "";

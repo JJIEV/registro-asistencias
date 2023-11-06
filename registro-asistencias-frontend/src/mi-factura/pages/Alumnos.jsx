@@ -164,7 +164,8 @@ export const Alumnos = () => {
       nombre: nombreAlumno,
       apellido: apellidoAlumno,
       tipo_documento: tipoDocumentoAlumno,
-      documento: documentoAlumno
+      documento: documentoAlumno,
+      aula: aulaSeleccionada
     }
     dispatch(agregarAlumno(nuevoAlumno))
     const filtro = {
@@ -174,6 +175,9 @@ export const Alumnos = () => {
     dispatch(cargarPaginaFiltradaListaAlumnos(filtro))
     handleCloseFiltroAlumno();
   }
+
+
+  
 
   const onCerrarSesion = () => {
     dispatch(clearStateEmpresa()), dispatch(onLogout());
@@ -189,9 +193,14 @@ export const Alumnos = () => {
     setEspecialidadSeleccionada(especialidadObj);
   };
   const handleSelectAula = (e) => {
-    const id = Number(e.target.value);
-    const aulaObj = aulas.find((item) => item.id === id);
-    setAulaSeleccionada(aulaObj);
+    const value = e.target.value;
+    if (value === "") {
+      setAulaSeleccionada({ id: "" }); // Establece el estado para mostrar el placeholder
+    } else {
+      const id = Number(value);
+      const aulaObj = aulas.find((item) => item.id === id);
+      setAulaSeleccionada(aulaObj || { id: "" }); // Establece el objeto encontrado o vuelve al placeholder si no hay coincidencia
+    }
   };
 
  const openModalAlumno = () => {
@@ -507,6 +516,24 @@ export const Alumnos = () => {
               />
 
             </Form.Group>
+            <Form.Group className="form-group md-input">
+                  <label className="label-tittle-text">Curso</label>
+                  <Form.Control
+                    as="select"
+                    value={aulaSeleccionada ? aulaSeleccionada.id : ""}
+
+                    onChange={handleSelectAula}
+                  >
+                    <option value="" disabled>
+                      Seleccione un curso
+                    </option>
+                    {aulas.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.descripcion + " " + item.especialidad.descripcion}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>

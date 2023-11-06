@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface AsistenciaRepository extends JpaRepository<Asistencia, Integer> {
 
-    @Query("SELECT a FROM Asistencia a WHERE (:aulaId is null or  a.aulaMateria.aula.id = :aulaId) AND (:especialidadId is null or a.aulaMateria.aula.especialidad.id = :especialidadId)")
+    @Query("SELECT a FROM Asistencia a WHERE (:aulaId is null or  a.alumno.aula.id = :aulaId) AND (:especialidadId is null or a.alumno.aula.especialidad.id = :especialidadId)")
     public Page<Asistencia> findAsistenciaByAulaIdAndEspecialidadId(Integer aulaId, Integer especialidadId, Pageable pageable);
 }

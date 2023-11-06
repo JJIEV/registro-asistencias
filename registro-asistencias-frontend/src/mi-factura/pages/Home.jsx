@@ -31,12 +31,13 @@ import perfilEmptyDefault from "../prod/img/avatar.png";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PersonIcon from "@mui/icons-material/Person";
 import { cargarPaginaFiltradaListaEmpresas } from "../../reducers/docs/empresas/actions.js";
-import { cargarAlumnos } from "../../reducers/docs/alumnos/actions.js";
+import { cargarAlumnos, cargarAlumnosPorAula } from "../../reducers/docs/alumnos/actions.js";
 import {
   agregarRegistroAsistencia,
   cargarAulaMateriaList,
 } from "../../reducers/docs/aulaMateria/actions.js";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { cargarAulasList } from "../../reducers/docs/aulas/actions.js";
 
 export const Home = () => {
   const cookies = new Cookies();
@@ -70,12 +71,18 @@ export const Home = () => {
   const [aulaMateriaSeleccionada, setAulaMateriaSeleccionada] = useState(null);
 
   const [asistenciaSeleccionada, setAsistenciaSeleccionada] = useState(null);
+  const aulas = useSelector((state) => {
+    return state.aulas?.aulasList;
+  });
+  const [aulaSeleccionada, setAulaSeleccionada] = useState({ id: "" });
+
 
   useEffect(() => {
-    dispatch(cargarAlumnos());
+    dispatch(cargarAlumnosPorAula(aulaSeleccionada.id));
+    dispatch(cargarAulasList())
     dispatch(cargarAulaMateriaList());
     console.log("Fecha: ", fecha)
-  }, []);
+  }, [aulaSeleccionada]);
 
   const onCerrarSesion = () => {
     dispatch(clearStateEmpresa()), dispatch(onLogout());
@@ -89,6 +96,18 @@ export const Home = () => {
     const alumnoObj = alumnos.find((item) => item.id === id);
     setAlumnoSeleccionado(alumnoObj);
   };
+
+  const handleSelectAula = (e) => {
+    const value = e.target.value;
+    if (value === "") {
+      setAulaSeleccionada({ id: "" }); // Establece el estado para mostrar el placeholder
+    } else {
+      const id = Number(value);
+      const aulaObj = aulas.find((item) => item.id === id);
+      setAulaSeleccionada(aulaObj || { id: "" }); // Establece el objeto encontrado o vuelve al placeholder si no hay coincidencia
+    }
+  };
+  
 
   const handleSelectAulaMateria = (e) => {
     const id = Number(e.target.value);
@@ -107,6 +126,7 @@ export const Home = () => {
 
   const handleSubmit = () => {
     const filtro = {
+      aula: aulaSeleccionada,
       aulaMateria: aulaMateriaSeleccionada,
       alumno: alumnoSeleccionado,
       fecha: fecha,
@@ -149,51 +169,7 @@ export const Home = () => {
           </div>
 
           <ul className="navbar-nav">
-            {/* {roles?.indexOf("admin") !== -1 && (
-              <li className="nav-item">
-                <Link to={"/empresa"}>
-                  {" "}
-                  <ApartmentIcon></ApartmentIcon>
-                </Link>
-
-                <Link to={"/usuario"}>
-                  {" "}
-                  <PersonIcon></PersonIcon>
-                </Link>
-              </li>
-            )}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle custom-nav"
-                id="navbarDropdownMenuLink"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="true"
-              >
-                <img
-                  src={logoDefault}
-                  className="img-fluid img-perfil"
-                  alt="Foto de perfil"
-                ></img>
-                {username}
-              </a>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              ></ul>
-            </li>
-            {roles?.indexOf("admin") !== -1 && (
-              <li className="nav-item">
-                <Link
-                  to={"/configuracion"}
-                  className="nav-link nav-settings"
-                  role="button"
-                >
-                  {" "}
-                  <span className="material-icons-outlined"> settings </span>
-                </Link>
-              </li>
-            )} */}
+            
 
             <li className="nav-item">
               <Link
@@ -224,6 +200,25 @@ export const Home = () => {
                     onChange={handleCheckboxChange}
                   />
                 </Form.Group>
+                
+                <Form.Group className="form-group md-input">
+                  <label className="label-tittle-text">Curso</label>
+                  <Form.Control
+                    as="select"
+                    value={aulaSeleccionada ? aulaSeleccionada.id : ""}
+
+                    onChange={handleSelectAula}
+                  >
+                    <option value="" disabled>
+                      Seleccione un curso
+                    </option>
+                    {aulas.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.descripcion + " " + item.especialidad.descripcion}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
                 <Form.Group className="form-group md-input">
                   <label className="label-tittle-text">Alumno</label>
                   <Form.Control
@@ -242,7 +237,7 @@ export const Home = () => {
                   </Form.Control>
                 </Form.Group>
                 <Form.Group className="form-group md-input">
-                  <label className="label-tittle-text">Curso</label>
+                  <label className="label-tittle-text">Materia</label>
                   <Form.Control
                     as="select"
                     value={
@@ -251,15 +246,11 @@ export const Home = () => {
                     onChange={handleSelectAulaMateria}
                   >
                     <option value="" disabled>
-                      Seleccione un curso
+                      Seleccione una materia
                     </option>
                     {aulaMateriaList.map((item) => (
                       <option key={item.id} value={item.id}>
-                        {item.aula.descripcion +
-                          " " +
-                          item.aula.especialidad.descripcion +
-                          " " +
-                          item.materia.descripcion}
+                        {item.materia.descripcion}
                       </option>
                     ))}
                   </Form.Control>
